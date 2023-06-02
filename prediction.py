@@ -43,11 +43,10 @@ def predict():
             cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
             emotion_prediction = emotion_model.predict(cropped_img)
             maxindex = int(np.argmax(emotion_prediction))
-            emotion = emotion_dict[maxindex]
-            emotion.append(emotion)  # Store the emotion for this frame
+              # Store the emotion for this frame
 
     # Return the emotions for all frames
-    return jsonify(emotions=emotion)
+    return jsonify(emotions=emotion_dict[maxindex])
 
 
 
