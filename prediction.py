@@ -27,7 +27,7 @@ def predict():
         f.flush()
         cap = cv2.VideoCapture(f.name)
 
-    emotions = []  # Store the emotions for each frame
+      # Store the emotions for each frame
 
     while True:
         ret, frame = cap.read()
