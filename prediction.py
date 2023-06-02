@@ -44,10 +44,10 @@ def predict():
             emotion_prediction = emotion_model.predict(cropped_img)
             maxindex = int(np.argmax(emotion_prediction))
             emotion = emotion_dict[maxindex]
-            emotions.append(emotion)  # Store the emotion for this frame
+            emotion.append(emotion)  # Store the emotion for this frame
 
     # Return the emotions for all frames
-    return jsonify(emotions=emotions)
+    return jsonify(emotions=emotion)
 
 
 
