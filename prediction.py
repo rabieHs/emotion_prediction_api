@@ -24,7 +24,7 @@ def predict():
     import numpy as np
     import tempfile
 
-    video_bytes = ...
+    video_bytes = request.data
 
     with tempfile.NamedTemporaryFile(delete=False) as f:
         f.write(video_bytes)
