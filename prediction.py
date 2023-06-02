@@ -26,7 +26,7 @@ def predict():
         f.flush()
         cap = cv2.VideoCapture(f.name)
 
-    maxindex = 0
+
     while True:
         # Find haar cascade to draw bounding box around face
         ret, frame = cap.read()
@@ -46,13 +46,13 @@ def predict():
 
             # predict the emotions
             emotion_prediction = emotion_model.predict(cropped_img)
-            maxindex = int(np.argmax(emotion_prediction))
-        cv2.putText(frame, emotion_dict[maxindex], (x + 5, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2,cv2.LINE_AA)
+
+        cv2.putText(frame, emotion_dict[ int(np.argmax(emotion_prediction))], (x + 5, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2,cv2.LINE_AA)
         cv2.imshow('Emotion Detection', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     # return the emotion prediction
-    return jsonify(emotion=emotion_dict[maxindex])
+    return jsonify(emotion=emotion_dict[ int(np.argmax(emotion_prediction))])
 
 if __name__ == '__main__':
     app.run()
