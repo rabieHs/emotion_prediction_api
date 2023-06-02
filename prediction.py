@@ -20,13 +20,18 @@ print("Loaded model from disk")
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    video_bytes = request.data
+    import cv2
+    import numpy as np
+    import tempfile
+
+    video_bytes = ...
+
     with tempfile.NamedTemporaryFile(delete=False) as f:
         f.write(video_bytes)
         f.flush()
         cap = cv2.VideoCapture(f.name)
 
-
+    maxindex = 0
     while True:
         # Find haar cascade to draw bounding box around face
         ret, frame = cap.read()
@@ -40,19 +45,18 @@ def predict():
 
         # take each face available on the camera and Preprocess it
         for (x, y, w, h) in num_faces:
-            cv2.rectangle(frame, (x, y-50), (x+w, y+h+10), (0, 255, 0), 4)
+            cv2.rectangle(frame, (x, y - 50), (x + w, y + h + 10), (0, 255, 0), 4)
             roi_gray_frame = gray_frame[y:y + h, x:x + w]
             cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
 
-            # predict the emotions
-            emotion_prediction = emotion_model.predict(cropped_img)
+            # Make the emotion prediction
+            emotion_prediction = emotion_model.predict(cropped_img)  # Replace 'model' with your actual model object
 
-        cv2.putText(frame, emotion_dict[ int(np.argmax(emotion_prediction))], (x + 5, y - 20), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), 2,cv2.LINE_AA)
-        cv2.imshow('Emotion Detection', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-    # return the emotion prediction
-    return jsonify(emotion=emotion_dict[ int(np.argmax(emotion_prediction))])
+            # Return the emotion prediction
+            return jsonify(emotion=emotion_dict[int(np.argmax(emotion_prediction))])
+
+
+
 
 if __name__ == '__main__':
     app.run()
