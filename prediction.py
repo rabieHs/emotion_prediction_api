@@ -53,7 +53,7 @@ def predict():
             emotion_prediction = emotion_model.predict(cropped_img)  # Replace 'model' with your actual model object
 
             # Return the emotion prediction
-            return jsonify(emotion=emotion_dict[int(np.argmax(emotion_prediction))])
+            return jsonify(emotion=(emotion_dict[int(np.argmax(emotion_prediction))]))
 
 
 
