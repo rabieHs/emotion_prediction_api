@@ -26,6 +26,7 @@ def predict():
         f.flush()
         cap = cv2.VideoCapture(f.name)
     while True:
+        maxindex=0
         # Find haar cascade to draw bounding box around face
         ret, frame = cap.read()
         if not ret:
